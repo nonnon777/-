@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おみくじ</title>
+    <link rel="stylesheet" href="omikuji.css">
+</head>
+
+<body>
+    <div class="omikuji-container">
+        <h1>おみくじ</h1>
+        <button id="drawButton">おみくじを引く</button>
+        <div id="result" class="result hidden">
+            <h2 id="fortune"></h2>
+            <p id="overallMessage"></p>
+            <div id="details">
+                <p><strong>健康運:</strong> <span id="health"></span></p>
+                <p><strong>金運:</strong> <span id="wealth"></span></p>
+                <p><strong>恋愛運:</strong> <span id="love"></span></p>
+                <p><strong>留年確率:</strong> <span id="gradeProbability"></span></p>
+            </div>
+        </div>
+    </div>
+    <script src="omikuji.js"></script>
+</body>
+
+</html>

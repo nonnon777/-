@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天気予報</title>
+    <link href="index.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header>
+        <h1 class="headline">
+            <a>天気予報</a>
+        </h1>
+        <div class="nav">           
+            <button class="menu-item" onclick="location.href='omikuji/omikuji.html'"><a>おみくじ</a></button>
+            <button class="menu-item" onclick="location.href='slot/slot.html'"><a>スロット</a></button>
+            <button class="menu-item" onclick="location.href='tetoris/tetoris.html'"><a>テトリス</a></button>        
+        </div>
+    </header>
+
+
+    <div id="current-weather">
+        <div>
+            <h2 id="time">現在の天気</h2>
+            <p id="location">位置情報取得中...</p>
+            <p id="temp">データ取得中...</p>
+            <p id="description"></p>
+        </div>
+    </div>
+    <table id="hourly-forecast">
+        <thead>
+            <tr>
+                <th>時刻</th>
+                <th>気温</th>
+                <th>降水確率(%)</th>
+                <th>天気</th>
+            </tr>
+        </thead>
+        <tbody id="forecast-data">
+            
+        </tbody>
+    </table>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
