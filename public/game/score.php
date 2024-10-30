@@ -5,7 +5,7 @@ $MaxCount = 10;
 mainFunc();
  
 function GetFileName(){
-    $filename = "./" . "highscore.csv";
+    $filename = "highscore.csv";
     return $filename;
 }
  
