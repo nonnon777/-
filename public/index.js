@@ -44,6 +44,17 @@ function selectimg(weather) {
     "cloudy.png",
     "suno.png",
   ];
+
+  if(["clear sky","few clouds"].includes(weather)){
+    return "weather_img/sunny.png";
+  }else if(["scattered clouds","broken clouds","overcast clouds"].includes(weather)){
+    return "weather_img/cloudy.png";
+  }else if(["light rain","moderate rain","heavy intensity rain","very heavy rain","extremerain","freezing rain"].includes(weather)){
+    return "weather_img/rainy.png";
+  }else if(["snow"].includes(weather)){
+    return "weather_img/snow.png"
+  }
+
 }
 //英語表記を日本語に（日本語でも取得できるけど翻訳に違和感があったので）
 function langJP(weathername) {
@@ -119,7 +130,7 @@ function displayWeather_table(list, location) {
     rainCell.textContent = `${Math.round(list[i].pop * 100)}`;
     descCell.textContent = langJP(list[i].weather[0].description);
     var imgurl = selectimg(list[i].weather[0].description);
-    imgCell.innerHTML(`<img src="${imgurl}" />`);
+    imgCell.innerHTML(`<img src="${imgurl}" class="weather_img"/>`);
 
     row.appendChild(timeCell);
     row.appendChild(tempCell);

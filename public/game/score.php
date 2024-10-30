@@ -18,8 +18,7 @@ function sortByKey($key_name, $sort_order, $array) {
 }
  
 function mainFunc(){
- 
-    // https://www.gesipepa-cycle.com/* 以外からのリクエストは拒否する
+
     $referer = $_SERVER['HTTP_REFERER'];
     if(strpos($referer,'https://nonnon777-original-we-41.deno.dev/')  === false)
         return;
