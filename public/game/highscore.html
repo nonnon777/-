@@ -30,8 +30,9 @@
       request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
           //受信完了時の処理
+          console.log(request.responseText);
           var result = document.getElementById("result");
-          var text = document.createTextNode(decodeURI(request.responseText));
+          var text = document.createTextNode((request.responseText));
           let str = text.textContent;
           console.log(result, "result");
           console.log(text, "text");
