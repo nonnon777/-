@@ -23,7 +23,7 @@
     <script type="text/javascript">
       let urldata =
         "https://nonnon777-original-we-41.deno.dev/game/get_highscore.php";
-      let request = createXMLHttpRequest();
+      let request = new XMLHttpRequest();
       request.open("GET", urldata, true);
       request.send("");
 
