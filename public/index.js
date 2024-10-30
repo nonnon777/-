@@ -130,7 +130,7 @@ function displayWeather_table(list, location) {
     rainCell.textContent = `${Math.round(list[i].pop * 100)}`;
     descCell.textContent = langJP(list[i].weather[0].description);
     var imgurl = selectimg(list[i].weather[0].description);
-    imgCell.innerHTML(`<img src="${imgurl}" class="weather_img"/>`);
+    imgCell.innerHTML=`<img src="${imgurl}" class="weather_img"/>`;
 
     row.appendChild(timeCell);
     row.appendChild(tempCell);

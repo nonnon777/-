@@ -92,3 +92,7 @@ table th {
   background-color: #606060;
   color: #fff;
 }
+.weather_img{
+  width: 30px;
+  height: 30px;
+}
