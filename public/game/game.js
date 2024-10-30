@@ -22,7 +22,7 @@ let loop = setInterval(main, interval);
 function SendData() {
   const textbox1 = document.getElementById("name");
 
-  let phpurl = "http://nonnon777-original-we-41.deno.dev/public/game/score.php";
+  let phpurl = "http://nonnon777-original-we-41.deno.dev/game/score.php";
 
   // ハンドルネームの欄になにも入力されていなければ「名無しさん」とする
   let name = textbox1.value;
