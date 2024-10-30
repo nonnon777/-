@@ -157,5 +157,3 @@ async function init() {
 
 // ページ読み込み時に初期化
 window.onload = init;
-let img = document.getElementById("weather_img");
-img.src = "weather_img/clear_sky.png";
