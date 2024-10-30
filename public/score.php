@@ -43,6 +43,8 @@ function mainFunc(){
  
             $stack[] = $newArray;
         }
+    }else{
+        <console class="log">nigger</console>
     }
  
     // 配列に送られてきたデータを追加
