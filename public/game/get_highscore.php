@@ -6,3 +6,4 @@ function GetFileName(){
  
 $allData = file_get_contents(GetFileName());
 echo $allData;
+?>
