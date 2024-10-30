@@ -152,6 +152,7 @@ async function init() {
   displayWeather_now(weatherData_now, locationData);
   //3時間ごとの天気を取得
   const weatherData_table = await fetchWeather_table(lat, lon);
+  console.log(weatherData_table);
   displayWeather_table(weatherData_table.list, locationData);
 }
 
