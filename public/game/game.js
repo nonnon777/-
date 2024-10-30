@@ -33,14 +33,7 @@ function SendData() {
     score: score,
   });
   console.log(name + "name");
-  const req = new XMLHttpRequest();
-  req.open("POST",phpurl);
-  req.send({name:name,score:score});
-  req.onreadystatechange = function () {
-    if (req.readyState === 4 && req.status === 200) {
-      console.log(req.responseText);
-    }
-  }
+  
 }
 
 //block配列作成
