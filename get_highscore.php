@@ -1,6 +1,6 @@
 <?php
 function GetFileName(){
-    $filename = "highscore.csv";
+    $filename = "public/game/highscore.csv";
     return $filename;
 }
  
