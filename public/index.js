@@ -118,7 +118,6 @@ function displayWeather_table(list, location) {
     const tempCell = document.createElement("td");
     const rainCell = document.createElement("td");
     const descCell = document.createElement("td");
-    const imgCell = document.createElement("td");
 
     var date = new Date(list[i].dt_txt);
     timeCell.textContent = `${
@@ -130,13 +129,11 @@ function displayWeather_table(list, location) {
     rainCell.textContent = `${Math.round(list[i].pop * 100)}`;
     descCell.textContent = langJP(list[i].weather[0].description);
     var imgurl = selectimg(list[i].weather[0].description);
-    imgCell.innerHTML=`<img src="${imgurl}" class="weather_img"/>`;
-
+    descCell.innerHTML += `<img src="${imgurl}" class="weather_img"/>`;
     row.appendChild(timeCell);
     row.appendChild(tempCell);
     row.appendChild(rainCell);
     row.appendChild(descCell);
-    row.appendChild(imgCell);
     forecastData.appendChild(row);
   }
 }
