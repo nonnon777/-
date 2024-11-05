@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>天気予報スロット</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+      }
+      h1 {
+        color: #333;
+      }
+      .slot-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .slot {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #333;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 8px;
+      }
+      .slot-buttons {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 10px;
+      }
+      #result,
+      #balance {
+        font-size: 24px;
+        color: green;
+        margin-top: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>天気予報スロット</h1>
+    <div id="balance">所持金: 100</div>
+    <div class="slot-container">
+      <div class="slot" id="slot1">?</div>
+      <div class="slot" id="slot2">?</div>
+      <div class="slot" id="slot3">?</div>
+    </div>
+    <div class="slot-buttons">
+      <button onclick="stopSlot(1)">スロット1停止</button>
+      <button onclick="stopSlot(2)">スロット2停止</button>
+      <button onclick="stopSlot(3)">スロット3停止</button>
+    </div>
+    <button onclick="startSlot()">スロットを回す</button>
+    <div id="result"></div>
+
+    <script>
+      // スロットごとに異なるシンボルの順番
+      const slotSymbols = [
+        ["☀️ 晴れ", "☁️ 曇り", "🌧️ 雨", "❄️ 雪"], // スロット1
+        ["🌧️ 雨", "☀️ 晴れ", "❄️ 雪", "☁️ 曇り"], // スロット2
+        ["❄️ 雪", "☁️ 曇り", "☀️ 晴れ", "🌧️ 雨"], // スロット3
+      ];
+
+      let isSpinning = [false, false, false];
+      let slots = [null, null, null];
+      let balance = 100;
+      let currentIndex = [0, 0, 0]; // 各スロットの現在のシンボルインデックス
+
+      function startSlot() {
+        if (balance < 5) {
+          document.getElementById("result").textContent =
+            "所持金が不足しています。";
+          return;
+        }
+
+        balance -= 5;
+        document.getElementById("balance").textContent = `所持金: ${balance}`;
+        document.getElementById("result").textContent =
+          "スロットを回しています...";
+
+        for (let i = 0; i < 3; i++) {
+          isSpinning[i] = true;
+          spinSlot(i + 1);
+        }
+      }
+
+      function spinSlot(slotNum) {
+        if (isSpinning[slotNum - 1]) {
+          const slotElement = document.getElementById(`slot${slotNum}`);
+
+          // 各スロットごとに異なるシンボル順でインデックスを更新
+          currentIndex[slotNum - 1] =
+            (currentIndex[slotNum - 1] + 1) % slotSymbols[slotNum - 1].length;
+          slotElement.textContent =
+            slotSymbols[slotNum - 1][currentIndex[slotNum - 1]];
+
+          // 回転速度を変更
+          setTimeout(() => spinSlot(slotNum), 200);
+        }
+      }
+
+      function stopSlot(slotNum) {
+        isSpinning[slotNum - 1] = false;
+
+        if (!isSpinning.includes(true)) {
+          checkResult();
+        }
+      }
+
+      function checkResult() {
+        const [symbol1, symbol2, symbol3] = [
+          slotSymbols[0][currentIndex[0]],
+          slotSymbols[1][currentIndex[1]],
+          slotSymbols[2][currentIndex[2]],
+        ];
+
+        if (
+          symbol1 === "☀️ 晴れ" &&
+          symbol2 === "☀️ 晴れ" &&
+          symbol3 === "☀️ 晴れ"
+        ) {
+          balance += 50;
+          document.getElementById("result").textContent =
+            "大当たり！☀️ 晴れ3つで+50";
+        } else if (
+          symbol1 === "☁️ 曇り" &&
+          symbol2 === "☁️ 曇り" &&
+          symbol3 === "☁️ 曇り"
+        ) {
+          balance += 10;
+          document.getElementById("result").textContent =
+            "当たり！☁️ 曇り3つで+10";
+        } else if (
+          symbol1 === "🌧️ 雨" &&
+          symbol2 === "🌧️ 雨" &&
+          symbol3 === "🌧️ 雨"
+        ) {
+          balance += 5;
+          document.getElementById("result").textContent = "残念！🌧️ 雨3つで+5";
+        } else {
+          document.getElementById("result").textContent = "もう一度挑戦！";
+        }
+
+        document.getElementById("balance").textContent = `所持金: ${balance}`;
+      }
+    </script>
+  </body>
+</html>
