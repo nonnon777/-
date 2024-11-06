@@ -18,10 +18,8 @@ const handler = async (req) => {
     // 例えば、<script>タグの中にtokenを変数として埋め込む
     htmlContent = htmlContent.replace(
       "</body>",
-      `<script>
-        const token = "${token.trim()}";  // token.txtの内容をJavaScript変数として設定
-        console.log(token);  // コンソールにtokenを表示（例）
-      </script></body>`
+      `<p id="test" class="${token.trim()}">
+      </p></body>`
     );
 
     return new Response(htmlContent, {
