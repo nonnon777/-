@@ -24,29 +24,21 @@
             event.preventDefault();
             //
             let name = "名前";
-            let email = "a@a"
-            const data = `name=${name}&&email=${email}`;
-             let endPoint = "https://script.google.com/macros/s/AKfycbxl6SRHENy_yj36PDf-nXevXEIc2cfypLNnXRsw5iBHN5zx60CRFjbg3ofJ5f2eDZzn/exec";
+            let score = 100;
+            let time = "Date"
+            const data = `name=${name},score=${score},time=${time}`;
+            const endPoint = "https://script.google.com/macros/s/AKfycby6JOK_moJXyP1-xbLgBHPmdr9XFrSXnPfvs-pl7RByasTP23J7THaHeP_D4cotGHzp/exec";
             fetch(endPoint, {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Content-Type': 'text/plain',
+                    "mode" : "no-cors",
+                    "Content-Type": "application/json"
                 },
-                body: data
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text(); // 実際にはGASからのテキストレスポンスを受け取ります
-                })
-                .then(data => {
-                    console.log('Success:', data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            //    
+                body: JSON.stringify({ number: 123 })
+            });
+                
+                
+  
             
         });
     </script>
