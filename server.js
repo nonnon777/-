@@ -6,6 +6,8 @@ const handler = async (req) => {
   // publicフォルダー内のファイルを参照
   let filePath = url.pathname === "/" ? "/index.html" : url.pathname;
   filePath = `./public${filePath}`;
+  
+
 
   try {
     const file = await Deno.readFile(filePath); // publicフォルダー内のファイルを読み取る
