@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Apps Script POST Example</title>
+</head>
+
+<body>
+
+    <h1>Send Data to Google Apps Script</h1>
+    <button onclick="sendData()">Send POST Request</button>
+
+    <script>
+        async function sendData() {
+            const url = "https://script.google.com/macros/s/AKfycbxXrWUoKXynjSOlI9idCYGzFLtBmOEcc7IHfZLyf7cCxTApjTpfPoVcubDz-0FXaku1/exec"; // Google Apps ScriptのエンドポイントURL
+            let name = "名前";
+            let email = "a@a"
+            const data = `name=${name}&&email=${email}`;
+            
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+                body: data,
+            });
+            console.log(response.text());
+               
+        }
+    </script>
+
+</body>
+
+</html>

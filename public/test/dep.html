@@ -18,34 +18,36 @@
     <p id="result"></p>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
-        function gettoken() {
-            let urldata =
-                "https://nonnon777-original-we-41.deno.dev/token.txt";
-            let request = new XMLHttpRequest();
-            request.open("GET", urldata, true);
-            request.send("");
-
-            request.onreadystatechange = function () {
-                if (request.readyState == 4 && request.status == 200) {
-                    //受信完了時の処理
-                    console.log(request.responseText);
-                }
-            }
-        }
-        gettoken();
+        
+      
         document.getElementById("numberForm").addEventListener("submit", function (event) {
             event.preventDefault();
-            const number = 123;
-            let url = "https://script.google.com/macros/s/AKfycbwnYqvu4xtQkL8xksiiVLir52hyTwTeFkvQcdoNVCtwCt0d0W6aQ-QjulQJx57vrl5I/exec";            
-            fetch(url, {
-                method: "POST",
-                
-                mode: "no-cors",
-                body: JSON.stringify({ number: number })
+            //
+            let name = "名前";
+            let email = "a@a"
+            const data = `name=${name}&&email=${email}`;
+             let endPoint = "https://script.google.com/macros/s/AKfycbxl6SRHENy_yj36PDf-nXevXEIc2cfypLNnXRsw5iBHN5zx60CRFjbg3ofJ5f2eDZzn/exec";
+            fetch(endPoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+                body: data
             })
-                .then(response => response.text())
-                .then(data => console.log(data))
-                .catch(error => console.error("Error:", error));
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text(); // 実際にはGASからのテキストレスポンスを受け取ります
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            //    
+            
         });
     </script>
 </body>
