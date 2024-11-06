@@ -22,9 +22,9 @@ let loop = setInterval(main, interval);
 function removetest(){
   var element = document.getElementById("test");
   if (element) {
-    getClassNameAndRemoveById("test");
-    return element.className;
-    
+    var name = element.className;
+    element.remove();
+    return name
   } else {
     return null; 
   }
