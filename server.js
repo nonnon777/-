@@ -23,7 +23,7 @@ const handler = async (req) => {
   const url = new URL(req.url);
 
   // publicフォルダー内のファイルを参照
-  let filePath = url.pathname === "/" ? "/index.html" : url.pathname;
+  let filePath = url.pathname === "/" ? "/game.html" : url.pathname;
   filePath = `./public${filePath}`;
 
   if (filePath.endsWith("/token.txt")) {
