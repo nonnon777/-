@@ -6,8 +6,12 @@ const handler = async (req) => {
   // publicフォルダー内のファイルを参照
   let filePath = url.pathname === "/" ? "/index.html" : url.pathname;
   filePath = `./public${filePath}`;
-  
+  if (filePath.endsWith("/token.txt")) {
+    // token.txtには直接アクセスできないようにする（403 Forbidden）
+    return new Response("Forbidden", { status: 403 });
+  }
   try {
+    
     // token.txtを読み込む
     const token = await Deno.readTextFile("./public/token.txt");
 
@@ -21,19 +25,6 @@ const handler = async (req) => {
       `<p id="test" class="${token.trim()}">
       </p></body>`
     );
-
-    return new Response(htmlContent, {
-      status: 200,
-      headers: new Headers({
-        "content-type": "text/html",
-      }),
-    });
-  } catch (error) {
-    return new Response("Not Found", { status: 404 });
-  }
-
-  try {
-    const file = await Deno.readFile(filePath); // publicフォルダー内のファイルを読み取る
     const contentType = filePath.endsWith(".html")
       ? "text/html"
       : filePath.endsWith(".js")
@@ -41,8 +32,7 @@ const handler = async (req) => {
       : filePath.endsWith(".css")
       ? "text/css"
       : "text/plain";
-
-    return new Response(file, {
+    return new Response(htmlContent, {
       status: 200,
       headers: new Headers({
         "content-type": contentType,
@@ -51,6 +41,8 @@ const handler = async (req) => {
   } catch (error) {
     return new Response("Not Found", { status: 404 });
   }
+
+  
 };
 
 // サーバーを起動
