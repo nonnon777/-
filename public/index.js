@@ -224,7 +224,7 @@ function displayWeeklyWeather(weatherData) {
 
     // 降水確率セルを作成
     const rainCell = document.createElement("td");
-    rainCell.textContent = `${precipitation}%`;
+    rainCell.textContent = `${(Number(precipitation.T00_06.split("%")[0]) + Number(precipitation.T06_12.split("%")[0]) + Number(precipitation.T12_18.split("%")[0]) + Number(precipitation.T18_24.split("%")[0]))/4}%`;
 
     // 天気セルを作成
     const weatherCell = document.createElement("td");

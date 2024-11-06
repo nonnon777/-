@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -23,16 +23,17 @@
 
             const number = document.getElementById("number").value;
             const url = "https://script.google.com/macros/s/AKfycbxLQImfFOhcG5Kdu7z2FT4-wR3MIqpSKpdbzkLS5XVoIDARxNNtSC2fV9NzMxiy2K6H/exec"
+            const url1 = "https://script.google.com/macros/s/AKfycbxfx59cf1Y7oe8K2qP2ClCndWQC3P-yVTT20tXtMcWzA8etZM9KoxTpPjN4TegoIKw/exec"
             var res = fetch(url, { 
                 method: "POST",
-                mode: 'no-cors',
+                mode: 'cors',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ number }),
                 
             })
-                
+            console.log(res);
         });
     </script>
 </body>
