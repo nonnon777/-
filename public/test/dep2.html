@@ -14,31 +14,31 @@
 
     <script>
         async function sendData() {
-            const url = "https://script.google.com/macros/s/AKfycbycKB8Yh88rewNI37mnCi2464ZvljsA8wjlSdliGwpS0pHxOnbkjz7FvxfWIEw_nf5Y/exec"; // Google Apps ScriptのエンドポイントURL
+            const url = "https://script.google.com/macros/s/AKfycbzvVRG85hdPl_GOKCF6KZ5qDG9ZBdJq0U1_-YnKv34CKCD0WunCOq80lQl-3ivrjWVn/exec"; // Google Apps ScriptのエンドポイントURL
             let name = "名前";
             let email = "a@a"
             const data = `name=${name}&&email=${email}`;
             
-            const response = await fetch(url, {
+            const params = new URLSearchParams();
+            params.append("param1", "hoge");
+            params.append("param2", "fuga");
+
+            const requestParams = {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'text/plain',
+                    "mode":"cors",
+                    "Accept": "application/json",
+                    "Content-Type": "application/x-www-form-urlencoded",
                 },
-                body: data,
-            })
-                .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                    return response.text(); // 実際にはGASからのテキストレスポンスを受け取ります
+                body: params,
+            };
+
+            fetch(url, requestParams)
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result); // {param1: 'hoge', param2: 'fuga'} が返ってくる
                 })
-                .then(data => {
-                    console.log('Success:', data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            
+                .catch((e) => console.log(e));
                
         }
     </script>

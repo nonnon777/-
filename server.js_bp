@@ -7,32 +7,7 @@ const handler = async (req) => {
   let filePath = url.pathname === "/" ? "/index.html" : url.pathname;
   filePath = `./public${filePath}`;
   
-  try {
-    // token.txtを読み込む
-    const token = await Deno.readTextFile("./public/token.txt");
-
-    // index.htmlを読み込む
-    let htmlContent = await Deno.readTextFile(filePath);
-
-    // HTMLの中にtoken.txtの内容を埋め込む
-    // 例えば、<script>タグの中にtokenを変数として埋め込む
-    htmlContent = htmlContent.replace(
-      "</body>",
-      `<script>
-        const token = "${token.trim()}";  // token.txtの内容をJavaScript変数として設定
-        console.log(token);  // コンソールにtokenを表示（例）
-      </script></body>`
-    );
-
-    return new Response(htmlContent, {
-      status: 200,
-      headers: new Headers({
-        "content-type": "text/html",
-      }),
-    });
-  } catch (error) {
-    return new Response("Not Found", { status: 404 });
-  }
+  
 
   try {
     const file = await Deno.readFile(filePath); // publicフォルダー内のファイルを読み取る
