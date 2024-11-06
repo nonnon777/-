@@ -30,8 +30,9 @@
             const endPoint = "https://script.google.com/macros/s/AKfycbxvMPNWrG37AD3qFp-9YlVwCO_F90NpqffTuDE8E64SPFgxscJInOTRmzjdl9I7jgxR/exec";
             fetch(endPoint, {
                 method: "POST",
+                mode : "no-cors",
                 headers: {
-                    "mode" : "no-cors",
+                    
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ number: 123 })
