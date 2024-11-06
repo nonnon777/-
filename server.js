@@ -7,6 +7,10 @@ const handler = async (req) => {
   let filePath = url.pathname === "/" ? "/index.html" : url.pathname;
   filePath = `./public${filePath}`;
   
+  if (filePath.endsWith("token.txt")) {
+    return new Response("Forbidden", { status: 403 });
+  }
+
   try {
     const file = await Deno.readFile(filePath); // publicフォルダー内のファイルを読み取る
     const contentType = filePath.endsWith(".html")

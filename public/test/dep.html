@@ -21,13 +21,11 @@
         document.getElementById("numberForm").addEventListener("submit", function (event) {
             event.preventDefault();
             const number = 123;
-            let url = "https://script.google.com/macros/s/AKfycbygddAX-zZCHW6NsWlJgcwipFWCNYltXBo9Za16a-Iz2T0YzJqsY3lr3Hdh70uJ2XcP/exec";            
+            let url = "https://script.google.com/macros/s/AKfycbwnYqvu4xtQkL8xksiiVLir52hyTwTeFkvQcdoNVCtwCt0d0W6aQ-QjulQJx57vrl5I/exec";            
             fetch(url, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                mode: "cors",
+                
+                mode: "no-cors",
                 body: JSON.stringify({ number: number })
             })
                 .then(response => response.text())
