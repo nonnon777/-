@@ -75,27 +75,32 @@ async function fetchWeeklyWeather(cityCode) {
   }
 }
 
+// 天気に応じて画像を選択する関数
 function selectimg(weather) {
-  const imglist = [
-    "sunny.png",
-    "cloudy",
-    "cloudy_to_rainy.png",
-    "rainy.png",
-    "cloudy.png",
-    "suno.png",
-  ];
+  const imglist = {
+    "clear sky": "weather_img/sunny.png",
+    "few clouds": "weather_img/sunny.png",
+    "scattered clouds": "weather_img/cloudy.png",
+    "broken clouds": "weather_img/cloudy.png",
+    "overcast clouds": "weather_img/cloudy.png",
+    "light rain": "weather_img/rainy.png",
+    "moderate rain": "weather_img/rainy.png",
+    "heavy intensity rain": "weather_img/rainy.png",
+    "very heavy rain": "weather_img/rainy.png",
+    "extreme rain": "weather_img/rainy.png",
+    "freezing rain": "weather_img/rainy.png",
+    "light snow": "weather_img/snow.png",
+    "snow": "weather_img/snow.png",
+    "heavy snow": "weather_img/snow.png",
+    "sleet": "weather_img/snow.png",
+    "shower rain": "weather_img/rainy.png",
+    "thunderstorm": "weather_img/storm.png", // 雷雨用
+    "mist": "weather_img/mist.png", // 霧用
+  };
 
-  if(["clear sky","few clouds"].includes(weather)){
-    return "weather_img/sunny.png";
-  }else if(["scattered clouds","broken clouds","overcast clouds"].includes(weather)){
-    return "weather_img/cloudy.png";
-  }else if(["light rain","moderate rain","heavy intensity rain","very heavy rain","extremerain","freezing rain"].includes(weather)){
-    return "weather_img/rainy.png";
-  }else if(["snow"].includes(weather)){
-    return "weather_img/snow.png"
-  }
-
+  return imglist[weather] || ""; // デフォルト画像
 }
+
 //英語表記を日本語に（日本語でも取得できるけど翻訳に違和感があったので）
 function langJP(weathername) {
   const translations = {
@@ -178,7 +183,7 @@ function displayWeather_table(list) {
   }
 }
 
-// 週間天気を表示
+// 週間天気を表示する関数
 function displayWeeklyWeather(weatherData) {
   const weeklyForecastData = document.getElementById("weekly-forecast");
 
@@ -201,6 +206,12 @@ function displayWeeklyWeather(weatherData) {
     // 最高気温・最低気温をtemperatureオブジェクトから取得
     const highLowTemp = `${forecast.temperature.max.celsius}℃ / ${forecast.temperature.min.celsius}℃`;
 
+    // 降水確率を取得
+    const precipitation = forecast.chanceOfRain || 0; // 降水確率
+
+    // 天気に基づいた画像を選択
+    const imgurl = selectimg(forecast.telop); // 天気によって画像を選択
+
     const row = document.createElement("tr");
 
     // 日付セルを作成
@@ -211,17 +222,25 @@ function displayWeeklyWeather(weatherData) {
     const tempCell = document.createElement("td");
     tempCell.textContent = highLowTemp;
 
+    // 降水確率セルを作成
+    const rainCell = document.createElement("td");
+    rainCell.textContent = `${precipitation}%`;
+
     // 天気セルを作成
     const weatherCell = document.createElement("td");
     weatherCell.textContent = langJP(forecast.telop); // 天気情報（日本語化）
 
+
+
     row.appendChild(dateCell);
     row.appendChild(tempCell);
+    row.appendChild(rainCell);
     row.appendChild(weatherCell);
 
     weeklyForecastData.appendChild(row);
   });
 }
+
 
 
 
