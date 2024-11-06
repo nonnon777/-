@@ -10,6 +10,9 @@ const handler = async (req) => {
   if (filePath.endsWith("token.txt")) {
     return new Response("Forbidden", { status: 403 });
   }
+  if (filePath.endsWith("gas_url.txt")) {
+    return new Response("Forbidden", { status: 403 });
+  }
 
   try {
     const file = await Deno.readFile(filePath); // publicフォルダー内のファイルを読み取る

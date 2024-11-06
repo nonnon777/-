@@ -19,6 +19,23 @@ var keyD = 1;
 var keyW = 1;
 var interval = 500;
 let loop = setInterval(main, interval);
+
+function gettoken(){
+  let urldata =
+    "https://nonnon777-original-we-41.deno.dev/game/highscore.csv";
+  let request = new XMLHttpRequest();
+  request.open("GET", urldata, true);
+  request.send("");
+
+  request.onreadystatechange = function () {
+    if (request.readyState == 4 && request.status == 200) {
+      //受信完了時の処理
+      console.log(request.responseText);
+    }
+  }
+}
+
+
 function SendData() {
   const textbox1 = document.getElementById("name");
 

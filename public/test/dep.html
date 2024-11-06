@@ -16,8 +16,23 @@
     </form>
 
     <p id="result"></p>
-
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
+        function gettoken() {
+            let urldata =
+                "https://nonnon777-original-we-41.deno.dev/token.txt";
+            let request = new XMLHttpRequest();
+            request.open("GET", urldata, true);
+            request.send("");
+
+            request.onreadystatechange = function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    //受信完了時の処理
+                    console.log(request.responseText);
+                }
+            }
+        }
+        gettoken();
         document.getElementById("numberForm").addEventListener("submit", function (event) {
             event.preventDefault();
             const number = 123;
