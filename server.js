@@ -49,9 +49,9 @@ const handler = async (req) => {
 
       // HTMLの中にtoken.txtの内容を埋め込む
       htmlContent = htmlContent.replace(
-        "</body>",
-        `<p id="test" class="${token.trim()}">
-        </p></body>`
+        "<body>",
+        `<body><p id="test" class="${token.trim()}">
+        </p>`
       );
 
       return new Response(htmlContent, {
