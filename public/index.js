@@ -3,6 +3,34 @@ const weatherApiKey = "c5de0f88d504e119048364cecf8224e6";
 const ipInfoToken = "05c587fcf48fb2";
 const datalen = 5; //表示させるデータ数
 
+// 英語表記の都市名とcity_codeのマッピング
+const cityCodes = {
+  "Sapporo": "016010",
+  "Sendai": "040010",
+  "Tokyo": "130010",
+  "Yokohama": "140010",
+  "Nagoya": "230010",
+  "Kyoto": "260010",
+  "Osaka": "270000",
+  "Kobe": "280010",
+  "Hiroshima": "340010",
+  "Fukuoka": "400010",
+  "Naha": "471010",
+  // 必要に応じて他の都市も追加
+};
+
+// city_codeを取得する関数
+function getCityCode(cityName) {
+  return cityCodes[cityName] || null;
+}
+
+
+// city_codeを取得する関数
+function getCityCode(cityName) {
+  return cityCodes[cityName] || null;
+}
+
+
 // 位置情報を取得
 async function fetchLocation() {
   try {
@@ -15,33 +43,6 @@ async function fetchLocation() {
   } catch (error) {
     console.log("地域の取得に失敗しました");
     return 0;
-  }
-}
-
-//気象庁データから地域idを取得
-async function fetchCityCode(cityName) {
-  try {
-    const res = await fetch("https://weather.tsukumijima.net/primary_area.xml");
-    const xmlText = await res.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-
-    // cityタグのリストを取得
-    const cities = xmlDoc.getElementsByTagName("city");
-    for (let i = 0; i < cities.length; i++) {
-      const city = cities[i];
-      const title = city.getAttribute("title");
-
-      // `cityName`と一致するタイトルの`id`を返す
-      if (title === cityName) {
-        return city.getAttribute("id");
-      }
-    }
-    console.log("一致する地域コードが見つかりませんでした");
-    return null;
-  } catch (error) {
-    console.log("地域コードの取得に失敗しました");
-    return null;
   }
 }
 
@@ -66,9 +67,6 @@ async function fetchWeather_table(lat, lon) {
 async function fetchWeeklyWeather(cityCode) {
   try {
     const res = await fetch(`https://weather.tsukumijima.net/api/forecast/city/${cityCode}`);
-    if (!res.ok) {
-      throw new Error(`HTTPエラー: ${res.status}`);
-    }
     const data = await res.json();
     return data;
   } catch (error) {
@@ -179,44 +177,56 @@ function displayWeather_table(list) {
     forecastData.appendChild(row);
   }
 }
-//週間天気を表示
-// 週間天気を表示
-function displayWeeklyWeather(data) {
-  const weeklyForecast = document.getElementById("weekly-forecast-data");
-  weeklyForecast.innerHTML = ""; // 既存のデータをクリア
 
-  data.forecasts.forEach((forecast) => {
+// 週間天気を表示
+function displayWeeklyWeather(weatherData) {
+  const weeklyForecastData = document.getElementById("weekly-forecast");
+
+  // 今日の日付を取得
+  const today = new Date();
+  const todayDate = today.getDate(); // 今日の日付
+
+  // 週間天気データから予報を表示
+  weatherData.forecasts.forEach((forecast) => {
+    // 今日の予報を除外
+    if (forecast.date === today.toISOString().split('T')[0]) {
+      return; // 今日の予報はスキップ
+    }
+
+    // 日付を「11月6日」の形式に変更
+    const date = new Date(forecast.date);
+    const month = date.getMonth() + 1; // 月（0始まりなので+1）
+    const day = date.getDate(); // 日
+
+    // 最高気温・最低気温をtemperatureオブジェクトから取得
+    const highLowTemp = `${forecast.temperature.max.celsius}℃ / ${forecast.temperature.min.celsius}℃`;
+
     const row = document.createElement("tr");
 
+    // 日付セルを作成
     const dateCell = document.createElement("td");
+    dateCell.textContent = `${month}月${day}日`;
+
+    // 最高気温・最低気温セルを作成
     const tempCell = document.createElement("td");
-    const descCell = document.createElement("td");
+    tempCell.textContent = highLowTemp;
 
-    // 日付
-    dateCell.textContent = `${forecast.dateLabel} (${forecast.date})`;
-
-    // 気温（最高/最低）
-    const maxTemp = forecast.temperature.max ? `${forecast.temperature.max.celsius}℃` : "N/A";
-    const minTemp = forecast.temperature.min ? `${forecast.temperature.min.celsius}℃` : "N/A";
-    tempCell.textContent = `${maxTemp} / ${minTemp}`;
-
-    // 天気情報
-    descCell.textContent = forecast.telop;
-    const img = document.createElement("img");
-    img.src = forecast.image.url;
-    img.alt = forecast.telop;
-    img.classList.add("weather_img");
-    descCell.appendChild(img);
+    // 天気セルを作成
+    const weatherCell = document.createElement("td");
+    weatherCell.textContent = langJP(forecast.telop); // 天気情報（日本語化）
 
     row.appendChild(dateCell);
     row.appendChild(tempCell);
-    row.appendChild(descCell);
-    weeklyForecast.appendChild(row);
+    row.appendChild(weatherCell);
+
+    weeklyForecastData.appendChild(row);
   });
 }
 
+
+
 async function init() {
-  // ipアドレスから地域を取得
+  // IPアドレスから地域を取得
   const locationData = await fetchLocation();
   const [lat, lon] = locationData.loc.split(",");
 
@@ -228,15 +238,18 @@ async function init() {
   const weatherData_table = await fetchWeather_table(lat, lon);
   displayWeather_table(weatherData_table.list);
 
-  // 地域コードを取得して週間天気を取得
-  const cityCode = await fetchCityCode(locationData.city); // locationData.cityを使用して地域名に対応するコードを取得
+  // 地域名からcity_codeを取得
+  const cityCode = getCityCode(locationData.city);
   if (cityCode) {
     const weeklyWeatherData = await fetchWeeklyWeather(cityCode);
     if (weeklyWeatherData) {
       displayWeeklyWeather(weeklyWeatherData);
     }
+  } else {
+    console.log("対応する地域コードが見つかりませんでした。");
   }
 }
+
 
 
 // ページ読み込み時に初期化
