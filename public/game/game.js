@@ -22,7 +22,7 @@ let loop = setInterval(main, interval);
 function SendData() {
   const textbox1 = document.getElementById("name");
 
-  let phpurl = "https://118.27.122.182/";
+  let phpurl = "";
 
   // ハンドルネームの欄になにも入力されていなければ「名無しさん」とする
   let name = textbox1.value;

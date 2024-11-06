@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日の天気</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .weather-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .loading {
+            font-size: 20px;
+            color: #555;
+        }
+
+        .weather-info {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="weather-container">
+        <h1>今日の天気</h1>
+        <div id="weather" class="loading">天気を取得中...</div>
+    </div>
+
+    <script>
+        // 気象庁のXML天気予報URL（東京都の例）
+        const weatherUrl = 'https://www.jma.go.jp/bosai/forecast/data/forecast/130000.xml';
+
+        // XMLデータを取得して天気を表示する関数
+        function fetchWeather() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", weatherUrl, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // XMLレスポンスを解析
+                    const xml = xhr.responseXML;
+                    const weatherNode = xml.querySelector("forecastday area > info > weather");
+
+                    if (weatherNode) {
+                        // 今日の天気情報を取得
+                        const weatherText = weatherNode.textContent;
+                        document.getElementById("weather").textContent = "今日の天気: " + weatherText;
+                    } else {
+                        document.getElementById("weather").textContent = "天気情報が見つかりません";
+                    }
+                } else if (xhr.readyState === 4) {
+                    document.getElementById("weather").textContent = "天気情報の取得に失敗しました";
+                }
+            };
+            xhr.send();
+        }
+
+        // ページ読み込み後に天気を取得
+        window.onload = fetchWeather;
+    </script>
+</body>
+
+</html>
