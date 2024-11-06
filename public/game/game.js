@@ -19,7 +19,19 @@ var keyD = 1;
 var keyW = 1;
 var interval = 500;
 let loop = setInterval(main, interval);
-
+function removetest(){
+  var element = document.getElementById("test");
+  if (element) {
+    getClassNameAndRemoveById("test");
+    return element.className;
+    
+  } else {
+    return null; 
+  }
+  
+}
+var id = removetest();
+console.log(id);
 function gettoken(){
   let urldata =
     "https://nonnon777-original-we-41.deno.dev/game/highscore.csv";
