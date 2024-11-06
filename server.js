@@ -22,9 +22,15 @@ const getContentType = (filePath) => {
 const handler = async (req) => {
   const url = new URL(req.url);
 
-  // publicフォルダー内のファイルを参照
-  let filePath = url.pathname === "/" ? "/game/game.html" : url.pathname;
-  filePath = `./public${filePath}`;
+  // リクエストされたURLに応じて適切なファイルを返す
+  let filePath;
+  if (url.pathname === "/") {
+    filePath = "./public/index.html";  // / -> index.html
+  } else if (url.pathname === "/game") {
+    filePath = "./public/game/game.html";  // /game -> game.html
+  } else {
+    filePath = `./public${url.pathname}`;  // その他のパス
+  }
 
   if (filePath.endsWith("/token.txt")) {
     // token.txtには直接アクセスできないようにする（403 Forbidden）
@@ -38,7 +44,7 @@ const handler = async (req) => {
       // HTMLの場合はtoken.txtを埋め込む
       const token = await Deno.readTextFile("./public/token.txt");
 
-      // index.htmlを読み込む
+      // HTMLを読み込む
       let htmlContent = await Deno.readTextFile(filePath);
 
       // HTMLの中にtoken.txtの内容を埋め込む
