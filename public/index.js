@@ -1,7 +1,7 @@
 // OpenWeatherMapのAPIキーを設定
 const weatherApiKey = "c5de0f88d504e119048364cecf8224e6";
 const ipInfoToken = "05c587fcf48fb2";
-const datalen = 10; //表示させるデータ数
+const datalen = 5; //表示させるデータ数
 
 // 位置情報を取得
 async function fetchLocation() {
@@ -15,6 +15,33 @@ async function fetchLocation() {
   } catch (error) {
     console.log("地域の取得に失敗しました");
     return 0;
+  }
+}
+
+//気象庁データから地域idを取得
+async function fetchCityCode(cityName) {
+  try {
+    const res = await fetch("https://weather.tsukumijima.net/primary_area.xml");
+    const xmlText = await res.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+
+    // cityタグのリストを取得
+    const cities = xmlDoc.getElementsByTagName("city");
+    for (let i = 0; i < cities.length; i++) {
+      const city = cities[i];
+      const title = city.getAttribute("title");
+
+      // `cityName`と一致するタイトルの`id`を返す
+      if (title === cityName) {
+        return city.getAttribute("id");
+      }
+    }
+    console.log("一致する地域コードが見つかりませんでした");
+    return null;
+  } catch (error) {
+    console.log("地域コードの取得に失敗しました");
+    return null;
   }
 }
 
@@ -35,6 +62,21 @@ async function fetchWeather_table(lat, lon) {
   console.log(data);
   return data;
 }
+//週間天気取得
+async function fetchWeeklyWeather(cityCode) {
+  try {
+    const res = await fetch(`https://weather.tsukumijima.net/api/forecast/city/${cityCode}`);
+    if (!res.ok) {
+      throw new Error(`HTTPエラー: ${res.status}`);
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log("週間天気の取得に失敗しました");
+    return null;
+  }
+}
+
 function selectimg(weather) {
   const imglist = [
     "sunny.png",
@@ -71,20 +113,20 @@ function langJP(weathername) {
     "extreme rain": "激しい雨",
     "freezing rain": "氷雨",
     "light snow": "小雪",
-    snow: "雪",
+    "snow": "雪",
     "heavy snow": "大雪",
-    sleet: "みぞれ",
+    "sleet": "みぞれ",
     "shower rain": "にわか雨",
-    thunderstorm: "雷雨",
-    mist: "霧",
-    smoke: "煙霧",
-    haze: "もや",
-    fog: "濃霧",
-    sand: "砂嵐",
-    dust: "粉塵",
-    ash: "火山灰",
-    squall: "突風",
-    tornado: "竜巻",
+    "thunderstorm": "雷雨",
+    "mist": "霧",
+    "smoke": "煙霧",
+    "haze": "もや",
+    "fog": "濃霧",
+    "sand": "砂嵐",
+    "dust": "粉塵",
+    "ash": "火山灰",
+    "squall": "突風",
+    "tornado": "竜巻",
   };
 
   return translations[weathername] || weathername;
@@ -110,7 +152,7 @@ function displayWeather_now(data, location) {
 }
 
 //3時間ごとの天気データを表示。どこまで表示させるかは datalen（個数） で設定する
-function displayWeather_table(list, location) {
+function displayWeather_table(list) {
   const forecastData = document.getElementById("forecast-data");
   for (let i = 2; i < datalen; i++) {
     const row = document.createElement("tr");
@@ -137,21 +179,65 @@ function displayWeather_table(list, location) {
     forecastData.appendChild(row);
   }
 }
+//週間天気を表示
+// 週間天気を表示
+function displayWeeklyWeather(data) {
+  const weeklyForecast = document.getElementById("weekly-forecast-data");
+  weeklyForecast.innerHTML = ""; // 既存のデータをクリア
 
-// 初期化処理
+  data.forecasts.forEach((forecast) => {
+    const row = document.createElement("tr");
+
+    const dateCell = document.createElement("td");
+    const tempCell = document.createElement("td");
+    const descCell = document.createElement("td");
+
+    // 日付
+    dateCell.textContent = `${forecast.dateLabel} (${forecast.date})`;
+
+    // 気温（最高/最低）
+    const maxTemp = forecast.temperature.max ? `${forecast.temperature.max.celsius}℃` : "N/A";
+    const minTemp = forecast.temperature.min ? `${forecast.temperature.min.celsius}℃` : "N/A";
+    tempCell.textContent = `${maxTemp} / ${minTemp}`;
+
+    // 天気情報
+    descCell.textContent = forecast.telop;
+    const img = document.createElement("img");
+    img.src = forecast.image.url;
+    img.alt = forecast.telop;
+    img.classList.add("weather_img");
+    descCell.appendChild(img);
+
+    row.appendChild(dateCell);
+    row.appendChild(tempCell);
+    row.appendChild(descCell);
+    weeklyForecast.appendChild(row);
+  });
+}
+
 async function init() {
-  //ipアドレスから地域を取得
+  // ipアドレスから地域を取得
   const locationData = await fetchLocation();
   const [lat, lon] = locationData.loc.split(",");
 
-  //現在の天気を取得
+  // 現在の天気を取得
   const weatherData_now = await fetchWeather_now(lat, lon);
   displayWeather_now(weatherData_now, locationData);
-  //3時間ごとの天気を取得
+
+  // 3時間ごとの天気を取得
   const weatherData_table = await fetchWeather_table(lat, lon);
-  console.log(weatherData_table);
-  displayWeather_table(weatherData_table.list, locationData);
+  displayWeather_table(weatherData_table.list);
+
+  // 地域コードを取得して週間天気を取得
+  const cityCode = await fetchCityCode(locationData.city); // locationData.cityを使用して地域名に対応するコードを取得
+  if (cityCode) {
+    const weeklyWeatherData = await fetchWeeklyWeather(cityCode);
+    if (weeklyWeatherData) {
+      displayWeeklyWeather(weeklyWeatherData);
+    }
+  }
 }
+
 
 // ページ読み込み時に初期化
 window.onload = init;
