@@ -10,26 +10,30 @@
   
   <body>
     <header>
-    <h1 class="headline">
-      <a>天気予報</a>
-    </h1>
-    <div class="nav">
-      <button class="menu-item" onclick="location.href='omikuji/omikuji.html'">
-        <div>おみくじ</div>
-      </button>
-      <button class="menu-item" onclick="location.href='slot/slot.html'">
-        <div>スロット</div>
-      </button>
-      <button class="menu-item" onclick="location.href='game/game.html'">
-        <div>テトリス</div>
-      </button>
+      <h1 class="headline">
+        <a>テトリス</a>
+      </h1>
+      <div class="nav">
+        <button class="menu-item" onclick="location.href='omikuji/omikuji.html'">
+          <div>おみくじ</div>
+        </button>
+        <button class="menu-item" onclick="location.href='slot/slot.html'">
+          <div>スロット</div>
+        </button>
+        <button class="menu-item" onclick="location.href='game/game.html'">
+          <div>テトリス</div>
+        </button>
+      </div>
+    </header>
+    <div class="ex">
+      <ul class="ul">        
+        <li>1列消すと+100,連続で消すと+50のボーナスが入ります</li>
+        <li>スコアが高くなるほど落下速度が上昇します</li>
+        <li>名前が入力されていない場合は名無しとしてハイスコアに掲載されます</li>
+        <li>不適切な名前は処理されない場合があります。</li>
+      </ul>
     </div>
-  </header>
-    
-    <script
-      type="text/javascript"
-      src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-    ></script>
+
     <main class="game">
       <div class="start">
         <input type="text" id="name" maxlength="16" class="name" />

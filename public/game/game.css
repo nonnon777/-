@@ -5,7 +5,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #8d8d8d;
+  background-color: rgb(150, 150, 150);
 }
 
 header {
@@ -171,7 +171,7 @@ h1 {
   top: 500px;
   width: 420px;
   height: 500px;
-  background-color: #ffffff;
+  background-color: rgb(150, 150, 150);
 }
 .msg {
 
@@ -183,4 +183,11 @@ h1 {
   font-size: 13px;
   color: #ffffff;
   
+}
+.ex{
+  position: relative;
+  font-size: small;
+  background-color: rgb(255, 255, 255);
+  top: 15px;
+  border: 3px dotted #000;
 }
