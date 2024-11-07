@@ -40,7 +40,7 @@ const handler = async (req) => {
   try {
     const contentType = getContentType(filePath); // ファイルに対応するMIMEタイプを取得
 
-    if (filePath.endsWith(".html")) {
+    if (filePath.endsWith("game.html")) {
       // HTMLの場合はtoken.txtを埋め込む
       const token = await Deno.readTextFile("./public/token.txt");
 
