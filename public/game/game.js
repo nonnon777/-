@@ -57,7 +57,7 @@ function SendData() {
     'test' : test
   };
   //gasにアクセス開始
-  const endPoint = "https://script.google.com/macros/s/AKfycbxQ_peyua3fopjRGHuyiRNkLDhNdadb3Rf1BnTr_6vLkOWE9Ocvs4xYRW8ny0BTjH1O/exec";
+  const endPoint = "https://script.google.com/macros/s/AKfycbw2WtnrZP0MZXxSvyQsLdqlX7DlFvaQnmv-YPHDeg8wOy_t5fXeJi7ryZW4nfItiXbG/exec";
   fetch(endPoint, {
     method: "POST",
     mode: "no-cors",
