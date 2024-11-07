@@ -19,22 +19,22 @@ var keyD = 1;
 var keyW = 1;
 var interval = 500;
 let loop = setInterval(main, interval);
-function removetest(){
+function removetest() {
   var element = document.getElementById("test");
   if (element) {
     var name = element.className;
     element.remove();
     return name
   } else {
-    return null; 
+    return null;
   }
-  
+
 }
 var test = removetest();
 function isValidName(name) {
   // 不適切な文字（特殊記号など）を指定する正規表現
   const invalidChars = /[<>!@#$%^&*()_+=[\]{};':"\\|,.<>?/~`]/;
-  const banword= ["うんこ","セックス","sex","まんこ","ちんこ"]
+  const banword = ["うんこ", "セックス", "sex", "まんこ", "ちんこ"]
   // 名前が不適切な場合にfalseを返す
   if (invalidChars.test(name) || name.length > 15 || banword.some(word => name.includes(word))) {
     return "名無しさん";  // 不適切な名前
@@ -52,8 +52,8 @@ function SendData() {
   const data = {
     'name': name,
     'score': sendscore,
-    'date' : date,
-    'test' : test
+    'date': date,
+    'test': test
   };
   //gasにアクセス開始
   const endPoint = "https://script.google.com/macros/s/AKfycbxqnL5CUeElIjQL1X80c5ixkOgr7nL-n6CVgVD0sYpZ0QNdvN20tH83nWQvbvEzAqDQ/exec";
@@ -69,7 +69,7 @@ function SendData() {
     .catch(error => console.error("エラー:", error));
 
 }
-function getdate(){
+function getdate() {
   const date = new Date();
   const year = date.getFullYear().toString().slice(); // 年の最後の2桁
   const month = String(date.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため+1し、2桁に
@@ -278,7 +278,6 @@ function clk_fall() {
 }
 
 function main() {
-  console.log(start, interval, "インターバル");
   if (start == 1) {
     console.log(falltest() + "falltest");
     if (falltest() == 1) {
