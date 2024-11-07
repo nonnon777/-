@@ -19,20 +19,57 @@ var keyD = 1;
 var keyW = 1;
 var interval = 500;
 let loop = setInterval(main, interval);
+function removetest(){
+  var element = document.getElementById("test");
+  if (element) {
+    var name = element.className;
+    element.remove();
+    return name
+  } else {
+    return null; 
+  }
+  
+}
+var id = removetest();
+console.log(id);
+function gettoken(){
+  let urldata =
+    "https://nonnon777-original-we-41.deno.dev/game/highscore.csv";
+  let request = new XMLHttpRequest();
+  request.open("GET", urldata, true);
+  request.send("");
+
+  request.onreadystatechange = function () {
+    if (request.readyState == 4 && request.status == 200) {
+      //受信完了時の処理
+      console.log(request.responseText);
+    }
+  }
+}
+
+
 function SendData() {
   const textbox1 = document.getElementById("name");
 
-  let phpurl = "https://118.27.122.182/";
+  let url = "https://script.google.com/macros/s/AKfycbxwvE96q5jH0g5bcpz7yEVNUkY6Vf_D925yY9Xk-MDak7xx7Os0TO13tsBcmNNd-o1W/exec";
 
   // ハンドルネームの欄になにも入力されていなければ「名無しさん」とする
   let name = textbox1.value;
   if (name == "") name = "名無しさん";
 
-  $.post(phpurl, {
-    name: name,
-    score: score,
-  });
-  console.log(name + "name");
+  const data = {
+    'name': name,
+    'score': score
+  };
+  const options = {
+    'method': 'post',
+    'headers': {
+      'Content-Type': 'application/json'
+      //,'Authorization': `Bearer ${token}` //ウェブアプリを全体公開出来ない場合この認証が必要なので、コメントアウトをはずす。
+    },
+    'payload': JSON.stringify(data) //送りたいデータをpayloadに配置してJSON形式変換。
+  };
+  res = UrlFetchApp.fetch(url, options); 
   
 }
 

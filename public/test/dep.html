@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -16,23 +16,33 @@
     </form>
 
     <p id="result"></p>
-
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
+        
+      
         document.getElementById("numberForm").addEventListener("submit", function (event) {
             event.preventDefault();
-
-            const number = document.getElementById("number").value;
-            const url = "https://script.google.com/macros/s/AKfycbxLQImfFOhcG5Kdu7z2FT4-wR3MIqpSKpdbzkLS5XVoIDARxNNtSC2fV9NzMxiy2K6H/exec"
-            var res = fetch(url, { 
+            //
+            let name = "名前";
+            let score = 100;
+            let time = "Date"
+            const data = `name=${name},score=${score},time=${time}`;
+            const endPoint = "https://script.google.com/macros/s/AKfycbyMcBCZIprS6zXkl7HYkwmTD58fPO1B6XljBygCkSonqQMrR_TJwJqfwiKXhc5mvQAH/exec";
+            fetch(endPoint, {
                 method: "POST",
-                mode: 'no-cors',
+                mode : "no-cors",
                 headers: {
+                    
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ number }),
-                
+                body: JSON.stringify({ number: 123 })
             })
+                .then(response => console.log("成功"))
+                .catch(error => console.error("エラー:", error));
                 
+                
+  
+            
         });
     </script>
 </body>
