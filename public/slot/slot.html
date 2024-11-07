@@ -7,12 +7,63 @@
     <style>
       body {
         font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 50px;
+        background-color: #f0f4f8;
       }
+      header {
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-around; /* ボタンを等間隔に配置 */
+        width: 100%;
+        height: 30px;
+        background-color: rgb(255, 255, 255);
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        border-bottom: solid 2px #000000;
+        border-top: solid 2px #000000;
+      }
+
+      .title {
+        margin: auto;
+      }
+
+      .menu-item {
+        flex: 1; /* 各ボタンが均等な幅を取る */
+        text-align: center;
+        margin: 0; /* ボタン間の余白をなくす */
+        padding: 10px 0;
+        color: #000000;
+        font-weight: bold;
+        background: linear-gradient(#ffffff 0%, #ffffff 100%);
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.66);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.28);
+      }
+
+      .menu-item:hover {
+        background-color: #cccccc; /* ホバー時の背景色をより濃いグレーに */
+        color: #111; /* ホバー時のテキスト色を濃い色に */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* ホバー時の影をさらに強調 */
+        cursor: pointer; /* カーソルをポインタに変更 */
+      }
+
       h1 {
+        text-align: center;
+        margin-top: 1px;
+        margin-bottom: 1px;
+        color: #333;
+        border: double 5px #000000;
+      }
+      
+      h2 {
         color: #333;
       }
       .slot-container {
@@ -42,7 +93,7 @@
         color: green;
         margin-top: 10px;
       }
-      button {
+      .btn {
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
@@ -50,7 +101,22 @@
     </style>
   </head>
   <body>
-    <h1>天気予報スロット</h1>
+    <header>
+      <h1 class="headline">
+        <a>スロット</a>
+      </h1>
+      <div class="nav">
+        <button class="menu-item" onclick="location.href='/public/omikuji.html'">
+          <div>おみくじ</div>
+        </button>
+        <button class="menu-item" onclick="location.href='/public/index.html'">
+          <div>天気予報</div>
+        </button>
+        <button class="menu-item" onclick="location.href='/public/game/game.html'">
+          <div>テトリス</div>
+        </button>
+      </div>
+    </header>
     <div id="balance">所持金: 100</div>
     <div class="slot-container">
       <div class="slot" id="slot1">?</div>
@@ -58,9 +124,9 @@
       <div class="slot" id="slot3">?</div>
     </div>
     <div class="slot-buttons">
-      <button onclick="stopSlot(1)">スロット1停止</button>
-      <button onclick="stopSlot(2)">スロット2停止</button>
-      <button onclick="stopSlot(3)">スロット3停止</button>
+      <button onclick="stopSlot(1)" class="btn">スロット1停止</button>
+      <button onclick="stopSlot(2)" class="btn">スロット2停止</button>
+      <button onclick="stopSlot(3)" class="btn">スロット3停止</button>
     </div>
     <button onclick="startSlot()">スロットを回す</button>
     <div id="result"></div>

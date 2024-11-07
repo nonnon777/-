@@ -9,9 +9,25 @@
 </head>
 
 <body>
+    <header>
+        <h1 class="headline">
+            <a>おみくじ</a>
+        </h1>
+        <div class="nav">
+            <button class="menu-item" onclick="location.href='/public/index.html'">
+                <div>天気予報</div>
+            </button>
+            <button class="menu-item" onclick="location.href='/public/slot/slot.html'">
+                <div>スロット</div>
+            </button>
+            <button class="menu-item" onclick="location.href='/public/game/game.html'">
+                <div>テトリス</div>
+            </button>
+        </div>
+    </header>
     <div class="omikuji-container">
-        <h1>おみくじ</h1>
-        <button id="drawButton">おみくじを引く</button>
+        <h2>おみくじ</h2>
+        <button id="drawButton" class="btn">おみくじを引く</button>
         <div id="result" class="result hidden">
             <h2 id="fortune"></h2>
             <p id="overallMessage"></p>
