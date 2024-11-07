@@ -25,9 +25,8 @@
             //
             let name = "名前";
             let score = 100;
-            let time = "Date"
-            const data = `name=${name},score=${score},time=${time}`;
-            const endPoint = "https://script.google.com/macros/s/AKfycbyMcBCZIprS6zXkl7HYkwmTD58fPO1B6XljBygCkSonqQMrR_TJwJqfwiKXhc5mvQAH/exec";
+            let date = "Date"
+            const endPoint = "https://script.google.com/macros/s/AKfycbzDsHxFse9JHytituzoAevA2-pKTj9NnZ2RwyTxnQVzslAhliYgsaayNCToep9t4UuF/exec";
             fetch(endPoint, {
                 method: "POST",
                 mode : "no-cors",
@@ -35,7 +34,7 @@
                     
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ number: 123 })
+                body: JSON.stringify({ name:name,score:score,date:date })
             })
                 .then(response => console.log("成功"))
                 .catch(error => console.error("エラー:", error));

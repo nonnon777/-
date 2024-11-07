@@ -31,46 +31,34 @@ function removetest(){
   
 }
 var id = removetest();
-console.log(id);
-function gettoken(){
-  let urldata =
-    "https://nonnon777-original-we-41.deno.dev/game/highscore.csv";
-  let request = new XMLHttpRequest();
-  request.open("GET", urldata, true);
-  request.send("");
-
-  request.onreadystatechange = function () {
-    if (request.readyState == 4 && request.status == 200) {
-      //受信完了時の処理
-      console.log(request.responseText);
-    }
-  }
-}
-
 
 function SendData() {
   const textbox1 = document.getElementById("name");
-
-  let url = "https://script.google.com/macros/s/AKfycbxwvE96q5jH0g5bcpz7yEVNUkY6Vf_D925yY9Xk-MDak7xx7Os0TO13tsBcmNNd-o1W/exec";
-
+  var sendscore = score
   // ハンドルネームの欄になにも入力されていなければ「名無しさん」とする
   let name = textbox1.value;
   if (name == "") name = "名無しさん";
-
+  var date = new Date();
+  console.log(date);
   const data = {
     'name': name,
-    'score': score
+    'score': sendscore,
+    'date' : date,
+    'test' : test
   };
-  const options = {
-    'method': 'post',
-    'headers': {
-      'Content-Type': 'application/json'
-      //,'Authorization': `Bearer ${token}` //ウェブアプリを全体公開出来ない場合この認証が必要なので、コメントアウトをはずす。
+  //gasにアクセス開始
+  const endPoint = "https://script.google.com/macros/s/AKfycbzDsHxFse9JHytituzoAevA2-pKTj9NnZ2RwyTxnQVzslAhliYgsaayNCToep9t4UuF/exec";
+  fetch(endPoint, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
     },
-    'payload': JSON.stringify(data) //送りたいデータをpayloadに配置してJSON形式変換。
-  };
-  res = UrlFetchApp.fetch(url, options); 
-  
+    body: JSON.stringify(data)
+  })
+    .then(response => console.log("成功"))
+    .catch(error => console.error("エラー:", error));
+
 }
 
 //block配列作成
