@@ -32,6 +32,7 @@
 
 <body>
   <p>これまでのハイスコア（反映には時間がかかります）</p>
+  <p id="acc">これまでのアクセス数：</p>
   <div id="result"></div>
 
   <script type="text/javascript">
@@ -60,9 +61,11 @@
           });
           table.appendChild(tableRow);
         });
-
+        console.log(data)
         // 結果を表示
         document.getElementById("result").appendChild(table);
+        var acc = document.getElementById("acc");
+        acc.innerHTML = (`これまでのアクセス数：${data[0][4]}`);
       } catch (error) {
         console.error("データの取得に失敗しました:", error);
       }
