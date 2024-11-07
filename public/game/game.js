@@ -18,6 +18,7 @@ var keyA = 1;
 var keyD = 1;
 var keyW = 1;
 var interval = 500;
+var test = 0;
 let loop = setInterval(main, interval);
 function removetest(){
   var element = document.getElementById("test");
@@ -31,15 +32,24 @@ function removetest(){
   
 }
 var id = removetest();
-
+function isValidName(name) {
+  // 不適切な文字（特殊記号など）を指定する正規表現
+  const invalidChars = /[<>!@#$%^&*()_+=[\]{};':"\\|,.<>?/~`]/;
+  const banword= ["うんこ","セックス","sex","まんこ","ちんこ"]
+  // 名前が不適切な場合にfalseを返す
+  if (invalidChars.test(name) || name.length > 15 || banword.some(word => name.includes(word))) {
+    return "名無しさん";  // 不適切な名前
+  }
+  if (name == "") return "名無しさん";
+  return name;
+}
 function SendData() {
   const textbox1 = document.getElementById("name");
   var sendscore = score
   // ハンドルネームの欄になにも入力されていなければ「名無しさん」とする
   let name = textbox1.value;
-  if (name == "") name = "名無しさん";
-  var date = new Date();
-  console.log(date);
+  name = isValidName(name);
+  var date = getdate()
   const data = {
     'name': name,
     'score': sendscore,
@@ -47,7 +57,7 @@ function SendData() {
     'test' : test
   };
   //gasにアクセス開始
-  const endPoint = "https://script.google.com/macros/s/AKfycbzDsHxFse9JHytituzoAevA2-pKTj9NnZ2RwyTxnQVzslAhliYgsaayNCToep9t4UuF/exec";
+  const endPoint = "https://script.google.com/macros/s/AKfycbxQ_peyua3fopjRGHuyiRNkLDhNdadb3Rf1BnTr_6vLkOWE9Ocvs4xYRW8ny0BTjH1O/exec";
   fetch(endPoint, {
     method: "POST",
     mode: "no-cors",
@@ -60,7 +70,18 @@ function SendData() {
     .catch(error => console.error("エラー:", error));
 
 }
+function getdate(){
+  const date = new Date();
+  const year = date.getFullYear().toString().slice(); // 年の最後の2桁
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため+1し、2桁に
+  const day = String(date.getDate()).padStart(2, '0'); // 日
+  const hours = String(date.getHours()).padStart(2, '0'); // 時
+  const minutes = String(date.getMinutes()).padStart(2, '0'); // 分
 
+  // フォーマットを組み立て
+  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+  return formattedDate;
+}
 //block配列作成
 var block = new Array(11); // 11行
 for (let i = 0; i < 11; i++) {
