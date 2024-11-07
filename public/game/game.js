@@ -18,7 +18,6 @@ var keyA = 1;
 var keyD = 1;
 var keyW = 1;
 var interval = 500;
-var test = 0;
 let loop = setInterval(main, interval);
 function removetest(){
   var element = document.getElementById("test");
@@ -31,7 +30,7 @@ function removetest(){
   }
   
 }
-var id = removetest();
+var test = removetest();
 function isValidName(name) {
   // 不適切な文字（特殊記号など）を指定する正規表現
   const invalidChars = /[<>!@#$%^&*()_+=[\]{};':"\\|,.<>?/~`]/;
