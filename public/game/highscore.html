@@ -10,24 +10,28 @@
     table {
         border-collapse: collapse; /* 二重線のためにborder-collapseを指定 */
         width: 100%;
-      }
-      th, td {
-        padding: 8px;
-        text-align: center;
-        border: 3px double black; /* 二重線の設定 */
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      /* テーブル全体に二重線を適用 */
-      table {
-        border: 4px double black; /* 表全体の二重線 */
-      }
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border: 3px double black; /* 二重線の設定 */
+      background-color: rgb(255, 255, 255);
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    /* テーブル全体に二重線を適用 */
+    table {
+      border: 4px double black; /* 表全体の二重線 */
+    }
+    body{
+      background-color: rgb(150,150,150);
+    }
   </style>
 </head>
 
 <body>
-  <h2>これまでのハイスコア（反映には時間がかかります）</h2>
+  <p>これまでのハイスコア（反映には時間がかかります）</p>
   <div id="result"></div>
 
   <script type="text/javascript">

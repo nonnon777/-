@@ -7,11 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="game.css" />
   </head>
-
+  
   <body>
     <header>
-      <p style="margin: auto">tetoris</p>
-    </header>
+    <h1 class="headline">
+      <a>天気予報</a>
+    </h1>
+    <div class="nav">
+      <button class="menu-item" onclick="location.href='omikuji/omikuji.html'">
+        <div>おみくじ</div>
+      </button>
+      <button class="menu-item" onclick="location.href='slot/slot.html'">
+        <div>スロット</div>
+      </button>
+      <button class="menu-item" onclick="location.href='game/game.html'">
+        <div>テトリス</div>
+      </button>
+    </div>
+  </header>
     
     <script
       type="text/javascript"
@@ -286,6 +299,7 @@
         <div id="scoredisp" class="score">score:</div>
         <div id="msg" class="msg"></div>
       </div>
+      
       <div class="btnbox">
         <p>
           <input
@@ -329,13 +343,14 @@
             class="btn"
         /></p2>
       </div>
-
+      
       <iframe
         id="highscore"
         src="https://nonnon777-original-we-41.deno.dev/game/highscore.html"
         class="sabhtml"
       ></iframe>
     </main>
+    
     <script src="game.js"></script>
   </body>
 </html>
