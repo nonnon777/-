@@ -78,7 +78,7 @@ function getdate() {
   const minutes = String(date.getMinutes()).padStart(2, '0'); // 分
 
   // フォーマットを組み立て
-  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+  const formattedDate = `'${year}-${month}-${day} ${hours}:${minutes}`;
   return formattedDate;
 }
 //block配列作成
