@@ -503,7 +503,6 @@ function SendData() {
   name = isValidName(name);
   var date = getdate()
   var sendtxt = aaa(`${name},${score},${date}`, test);
-  console.log(sendtxt);
   const data = {
     'data': sendtxt
   };
