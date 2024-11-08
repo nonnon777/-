@@ -164,7 +164,9 @@ function displayWeather_table(list) {
     const rainCell = document.createElement("td");
     const descCell = document.createElement("td");
 
-    var date = new Date(list[i].dt_txt + ' UTC');
+    var date = new Date(list[i].dt_txt);
+    date.setHours(date.getHours() + 9);
+    
     timeCell.textContent = `${
       date.getMonth() + 1
     }月${date.getDate()}日${date.getHours()}時`;
