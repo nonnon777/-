@@ -248,7 +248,10 @@ function clk_start() {
   start = 1;
 }
 function clk_reset() {
-  gamereset();
+  if(start==1){
+    gamereset();
+  }
+  
 }
 function clk_left() {
   if (start == 1) {
