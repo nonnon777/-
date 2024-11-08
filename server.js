@@ -62,10 +62,12 @@ const handler = async (req) => {
       // Google Apps Scriptへデータを送信
       const response = await fetch(gasEndpoint, {
         method: "POST",
+        mode:"no-cors",
         headers: {
+          
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(req.json()),  // ボディにPOSTされたデータを送信
+        body: JSON.stringify(body),  // ボディにPOSTされたデータを送信
       });
 
       // GASからのレスポンスを返す

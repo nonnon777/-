@@ -494,7 +494,7 @@ function SendData() {
     headers: {
       "Content-Type": 'application/json'
     },
-    body: data
+    body: JSON.stringify(data)
   })
     .then(response => console.log("成功"))
     .catch(error => console.error("エラー:", error));
