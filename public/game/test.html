@@ -4,16 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Page</title>
+    <title>Token Request Example</title>
 </head>
 
 <body>
-    <h1>Welcome to the Test Page</h1>
-    <div class="info">
-        <!-- User-AgentとRefererがここに埋め込まれます -->
-        <p>User-Agent: <!-- サーバーから動的に埋め込まれます --></p>
-        <p>Referer: <!-- サーバーから動的に埋め込まれます --></p>
-    </div>
+    <h1>Token Request Example</h1>
+    <button id="requestToken">Get Token</button>
+    <p id="tokenDisplay">Token will appear here.</p>
+
+    <script>
+        document.getElementById("requestToken").addEventListener("click", async () => {
+            try {
+                const response = await fetch("/get-token", {
+                    method: "GET",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                });
+
+                if (response.ok) {
+                    const token = await response.text();
+                    document.getElementById("tokenDisplay").textContent = `Token: ${token}`;
+                } else {
+                    document.getElementById("tokenDisplay").textContent = "Failed to retrieve token.";
+                }
+            } catch (error) {
+                console.error("Error fetching token:", error);
+            }
+        });
+    </script>
 </body>
 
 </html>

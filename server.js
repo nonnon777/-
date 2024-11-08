@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
+const allowedReferer = "https://nonnon777-original-we-41.deno.dev";  // 許可するリファラーURL
+
 // 静的ファイルの拡張子に対するMIMEタイプを設定
 const getContentType = (filePath) => {
   if (filePath.endsWith(".html")) {
@@ -22,14 +24,37 @@ const getContentType = (filePath) => {
 const handler = async (req) => {
   const url = new URL(req.url);
 
-  // リクエストされたURLに応じて適切なファイルを返す
+  // AJAXによるトークンリクエスト処理
+  if (url.pathname === "/get-token") {
+    const referer = req.headers.get("referer");
+
+    if (referer === allowedReferer) {
+      try {
+        // Refererが許可されたURLと一致する場合、token.txtの内容を返す
+        const token = await Deno.readTextFile("./public/token.txt");
+        return new Response(token, {
+          status: 200,
+          headers: new Headers({
+            "content-type": "text/plain",
+          }),
+        });
+      } catch (error) {
+        return new Response("Token file not found", { status: 404 });
+      }
+    } else {
+      // Refererが一致しない場合は403 Forbiddenを返す
+      return new Response("Forbidden", { status: 403 });
+    }
+  }
+
+  // 他のリクエスト処理
   let filePath;
   if (url.pathname === "/") {
     filePath = "./public/index.html";  // / -> index.html
-  } else if (url.pathname === "/game") {
-    filePath = "./public/game/game.html";  // /game -> game.html
   } else if (url.pathname === "/test") {
     filePath = "./public/test.html";  // /test -> test.html
+  } else if (url.pathname === "/game") {
+    filePath = "./public/game/game.html";  // /game -> game.html
   } else {
     filePath = `./public${url.pathname}`;  // その他のパス
   }
@@ -41,60 +66,13 @@ const handler = async (req) => {
 
   try {
     const contentType = getContentType(filePath);
-
-    if (filePath.endsWith("test.html")) {
-      // User-Agent と Referer を取得
-      const userAgent = req.headers.get("user-agent") || "N/A";
-      const referer = req.headers.get("referer") || "N/A";
-
-      // HTMLを読み込む
-      let htmlContent = await Deno.readTextFile(filePath);
-
-      // HTMLの中にUser-AgentとRefererを埋め込む
-      htmlContent = htmlContent.replace(
-        '<div class="info">',
-        `<div class="info">
-          <p>User-Agent: ${userAgent}</p>
-          <p>Referer: ${referer}</p>`
-      );
-
-      return new Response(htmlContent, {
-        status: 200,
-        headers: new Headers({
-          "content-type": contentType,
-        }),
-      });
-    } else if (filePath.endsWith("game.html")) {
-      // game.htmlの場合、token.txtの内容を埋め込む
-      const token = await Deno.readTextFile("./public/token.txt");
-
-      // HTMLを読み込む
-      let htmlContent = await Deno.readTextFile(filePath);
-
-      // HTMLの中にtoken.txtの内容を埋め込む
-      htmlContent = htmlContent.replace(
-        '<div class="btnbox">',
-        `<div class="btnbox"><p id="test" class="${token.trim()}">
-        </p>`
-      );
-
-      return new Response(htmlContent, {
-        status: 200,
-        headers: new Headers({
-          "content-type": contentType,
-        }),
-      });
-    } else {
-      // その他のファイルをそのまま返す
-      const file = await Deno.readFile(filePath);
-      return new Response(file, {
-        status: 200,
-        headers: new Headers({
-          "content-type": contentType,
-        }),
-      });
-    }
-
+    const file = await Deno.readFile(filePath);
+    return new Response(file, {
+      status: 200,
+      headers: new Headers({
+        "content-type": contentType,
+      }),
+    });
   } catch (error) {
     return new Response("Not Found", { status: 404 });
   }
