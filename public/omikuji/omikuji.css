@@ -101,3 +101,26 @@ button:hover {
 #details p {
     margin: 5px 0;
 }
+#fullScreenImage1 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 9999;
+}
+.hidden {
+    display: none;
+}
+#fullScreenImage2 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 9999;
+}

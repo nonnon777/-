@@ -24,7 +24,12 @@ function drawFortune() {
     const selectedHealth = categories.health[Math.floor(Math.random() * categories.health.length)];
     const selectedWealth = categories.wealth[Math.floor(Math.random() * categories.wealth.length)];
     const selectedLove = categories.love[Math.floor(Math.random() * categories.love.length)];
-
+    if (Math.random() < 0.05) { // 0.05は5%の確率
+        document.getElementById("fullScreenImage1").style.display = "block";
+    } 
+    if (Math.random() < 0.01) {
+        document.getElementById("fullScreenImage2").style.display = "block";
+    }
     // 結果を表示
     document.getElementById("fortune").textContent = selectedFortune.result;
     document.getElementById("overallMessage").textContent = selectedFortune.overallMessage;
