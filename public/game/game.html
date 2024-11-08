@@ -307,49 +307,52 @@
           
         </div>
         <div id="scoredisp" class="score">score:</div>
-        <div id="msg" class="msg"></div>      
+        <div id="msg" class="msg"></div> 
+        <p class="reset_btn">
+          <input
+            id="btn_left"
+            type="button"
+            value="リセット"
+            onclick="clk_reset()"
+            class="btn"
+          />
+        </p>
+        <p class="fall_btn">
+        <input
+            id="btn_left"
+            type="button"
+            value="落下:S"
+            onclick="clk_fall()"
+            class="btn"
+        /></p>
         <div class="btnbox">
-          <p class="btnn">
-            <input
-              id="btn_left"
-              type="button"
-              value="リセット"
-              onclick="clk_reset()"
-              class="btn"
-            />
-          </p>
-          <p class="btnn">
+          
+          <p1 class="btnn">
           <input
               id="btn_left"
               type="button"
               value="左:A"
               onclick="clk_left()"
               class="btn"
-          /></p>
-          <p class="btnn">
-          <input
-              id="btn_left"
-              type="button"
-              value="右:D"
-              onclick="clk_right()"
-              class="btn"
-          /></p>
-          <p class="btnn">
+          /></p1>
+          <p1 class="btnn">
           <input
               id="btn_left"
               type="button"
               value="回転:W"
               onclick="clk_rote()"
               class="btn"
-          /></p>
-          <p class="btnn">
+          /></p1>
+          <p1 class="btnn">
           <input
               id="btn_left"
               type="button"
-              value="落下:S"
-              onclick="clk_fall()"
+              value="右:D"
+              onclick="clk_right()"
               class="btn"
-          /></p>
+          /></p1>
+
+          
         </div>
         <iframe
           id="highscore"

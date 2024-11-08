@@ -75,7 +75,7 @@ h1 {
     background-color: black;
     position: relative;
     width: 95%;
-    height: 500px;
+    height: 540px;
     top: 30px;
     border: double 10px #ffffff;
 }
@@ -145,35 +145,42 @@ h1 {
     font-size: 2%;
 
 }
+.reset_btn{
+    position: absolute;
+    left: 237px;
+    top: 350px;
+}
+.fall_btn{
+    position: absolute;
+    left: 237px;
+    top: 410px;
+}
 /*ボタンがあるとこ*/
 .btnbox {
-    background-color: rgb(94, 94, 94);
+    
     position: absolute;
-    left: 240px;
-    top: 200px;
+    left: 5px;
+    top: 480px;
 
-    width: 100px;
-    height: 270px;
-    border: solid 3px #ffffff;
-    touch-action: manipulation;
+    width: 100%;
+    height: 50px;
 }
 .btn {
     position: relative;
-    width: 80px;
+    width: 110px;
     height: 40px;
-    margin: 5px 10px;
+    margin: 5px 1px;
     background-color: #cbcbcb;
     border: 6px inset #c0bfbf;
     padding: 5px;
 }
 .btnn{
     margin: 4px auto;
-    margin-left: auto;
 }
 
 .sabhtml {
     position: absolute;
-    top: 520px;
+    top: 570px;
     height: 1000px;
     width: 100%;
     background-color: rgb(150, 150, 150);
