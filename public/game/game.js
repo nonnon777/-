@@ -459,7 +459,11 @@ function line() {
       }
       jj++;
       score += 100;
-      interval -= 5;
+      if(interval >= 100){
+        interval -= 5;
+      }
+      
+
       clearInterval(loop);
       loop = setInterval(main, interval);
       bonus++;
