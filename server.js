@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 const allowedOrigin = "https://nonnon777-original-we-41.deno.dev";  // 許可するオリジン
 const allowedReferer = "https://nonnon777-original-we-41.deno.dev/game/game.html";  // 許可するリファラー
 // Google Apps Script WebアプリのURL（GASエンドポイント）
-const gasEndpoint = "https://script.google.com/macros/s/AKfycbzGhzjpL66yVWrhCSyuLudWZX8rxAD1QDsDNsIRI-IXvtL4PkaHIhLoaHor96tC2b-E/exec"; 
+const gasEndpoint = "https://script.google.com/macros/s/AKfycbzlDq1VHpM-wELLpGqqmTOb-YyB2NJED1QubHrCurod0dDyb5WzZElL-9OM4E55FJvR/exec"; 
 
 // 静的ファイルの拡張子に対するMIMEタイプを設定
 const getContentType = (filePath) => {
