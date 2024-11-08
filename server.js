@@ -65,7 +65,7 @@ const handler = async (req) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),  // ボディにPOSTされたデータを送信
+        body: body,  // ボディにPOSTされたデータを送信
       });
 
       // GASからのレスポンスを返す

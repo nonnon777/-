@@ -19,18 +19,6 @@ var keyD = 1;
 var keyW = 1;
 var interval = 500;
 let loop = setInterval(main, interval);
-function removetest() {
-  var element = document.getElementById("test");
-  if (element) {
-    var name = element.className;
-    element.remove();
-    return name
-  } else {
-    return null;
-  }
-
-}
-var test = removetest();
 
 //block配列作成
 var block = new Array(11); // 11行
@@ -477,13 +465,6 @@ function gamereset() {
   random();
   setcolor();
   loop = setInterval(main, interval);
-}
-function aaa(text, test) {
-  var encrypted = '';
-  for (var i = 0; i < text.length; i++) {
-    encrypted += String.fromCharCode(text.charCodeAt(i) ^ test.charCodeAt(i % test.length));
-  }
-  return encrypted;
 }
 function isValidName(name) {
   // 不適切な文字（特殊記号など）を指定する正規表現
