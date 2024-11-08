@@ -24,7 +24,7 @@
 
                 if (response.ok) {
                     const token = await response.text();
-                    document.getElementById("tokenDisplay").textContent = `Token: ${JSON.stringify(token)}`;
+                    document.getElementById("tokenDisplay").textContent = `Token: ${JSON.parse(token)}`;
                 } else {
                     document.getElementById("tokenDisplay").textContent = "Failed to retrieve token.";
                 }
