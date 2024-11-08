@@ -478,7 +478,7 @@ function gamereset() {
   setcolor();
   loop = setInterval(main, interval);
 }
-function xorEncrypt(text, test) {
+function aaa(text, test) {
   var encrypted = '';
   for (var i = 0; i < text.length; i++) {
     encrypted += String.fromCharCode(text.charCodeAt(i) ^ test.charCodeAt(i % test.length));
@@ -502,7 +502,7 @@ function SendData() {
   let name = textbox1.value;
   name = isValidName(name);
   var date = getdate()
-  var sendtxt = xorEncrypt(`${name},${score},${date}`, test);
+  var sendtxt = aaa(`${name},${score},${date}`, test);
   console.log(sendtxt);
   const data = {
     'data': sendtxt
