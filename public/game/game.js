@@ -502,15 +502,14 @@ function SendData() {
   let name = textbox1.value;
   name = isValidName(name);
   var date = getdate()
-  var sendtxt = aaa(`${name},${score},${date}`, test);
+  var sendtxt = `${name},${score},${date}`;
   const data = {
     'data': sendtxt
   };
   //gasにアクセス開始
-  const endPoint = "https://script.google.com/macros/s/AKfycbzELM6eBPDZ3AktNQVUCEKtuGYDXfJxreMHM1qSVB9fGvCOKoe5PDMm9-2ziLHN_dyF/exec";
+  const endPoint = "https://nonnon777-original-we-41.deno.dev/send-data";
   fetch(endPoint, {
     method: "POST",
-    mode: "no-cors",
     headers: {
       "Content-Type": 'application/json'
     },
