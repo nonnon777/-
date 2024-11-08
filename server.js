@@ -44,7 +44,7 @@ const handler = async (req) => {
     } else {
       // Refererが一致しない場合、Refererの内容を返す
       return new Response(`Forbidden: Invalid Referer - ${referer || "No Referer"}`, {
-        status: 403,
+        status: 200,
       });
     }
   }
