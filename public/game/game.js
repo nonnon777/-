@@ -31,56 +31,7 @@ function removetest() {
 
 }
 var test = removetest();
-function isValidName(name) {
-  // 不適切な文字（特殊記号など）を指定する正規表現
-  const invalidChars = /[<>!@#$%^&*()_+=[\]{};':"\\|,.<>?/~`]/;
-  const banword = ["うんこ", "セックス", "sex", "まんこ", "ちんこ"]
-  // 名前が不適切な場合にfalseを返す
-  if (invalidChars.test(name) || name.length > 15 || banword.some(word => name.includes(word))) {
-    return "名無しさん";  // 不適切な名前
-  }
-  if (name == "") return "名無しさん";
-  return name;
-}
-function SendData() {
-  const textbox1 = document.getElementById("name");
-  var sendscore = score
-  // ハンドルネームの欄になにも入力されていなければ「名無しさん」とする
-  let name = textbox1.value;
-  name = isValidName(name);
-  var date = getdate()
-  const data = {
-    'name': name,
-    'score': sendscore,
-    'date': date,
-    'test': test
-  };
-  //gasにアクセス開始
-  const endPoint = "https://script.google.com/macros/s/AKfycbxqnL5CUeElIjQL1X80c5ixkOgr7nL-n6CVgVD0sYpZ0QNdvN20tH83nWQvbvEzAqDQ/exec";
-  fetch(endPoint, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": 'application/x-www-form-urlencoded'
-    },
-    body: `encryptedData=${encodeURIComponent(encryptedData)}`
-  })
-    .then(response => console.log("成功"))
-    .catch(error => console.error("エラー:", error));
 
-}
-function getdate() {
-  const date = new Date();
-  const year = date.getFullYear().toString().slice(); // 年の最後の2桁
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため+1し、2桁に
-  const day = String(date.getDate()).padStart(2, '0'); // 日
-  const hours = String(date.getHours()).padStart(2, '0'); // 時
-  const minutes = String(date.getMinutes()).padStart(2, '0'); // 分
-
-  // フォーマットを組み立て
-  const formattedDate = `'${year}-${month}-${day} ${hours}:${minutes}`;
-  return formattedDate;
-}
 //block配列作成
 var block = new Array(11); // 11行
 for (let i = 0; i < 11; i++) {
@@ -527,42 +478,58 @@ function gamereset() {
   setcolor();
   loop = setInterval(main, interval);
 }
-const encryptionKey = test;  
-const iv = window.crypto.getRandomValues(new Uint8Array(12));  // 12バイトのランダムなIVを生成
-
-// 暗号化関数
-function encryptData(data, key, iv) {
-  const encoder = new TextEncoder();
-  const encodedData = encoder.encode(data);
-  const keyBuffer = encoder.encode(key);
-
-  // Web Crypto APIを使用して暗号化
-  return window.crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt'])
-    .then(cryptoKey => {
-      return window.crypto.subtle.encrypt(
-        { name: 'AES-GCM', iv: iv },
-        cryptoKey,
-        encodedData
-      );
-    });
+function xorEncrypt(text, test) {
+  var encrypted = '';
+  for (var i = 0; i < text.length; i++) {
+    encrypted += String.fromCharCode(text.charCodeAt(i) ^ test.charCodeAt(i % test.length));
+  }
+  return encrypted;
 }
-const dataToEncrypt = { name: 'John Doe', score: 100, date: '2024-11-08' };
-encryptData(JSON.stringify(dataToEncrypt), encryptionKey, iv)
-  .then(encryptedData => {
-    // 暗号化されたデータをBase64エンコードしてGASに送信
-    const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedData)));
-    const ivBase64 = btoa(String.fromCharCode(...iv));  // IVもBase64エンコード
+function isValidName(name) {
+  // 不適切な文字（特殊記号など）を指定する正規表現
+  const invalidChars = /[<>!@#$%^&*()_+=[\]{};':"\\|,.<>?/~`]/;
+  const banword = ["うんこ", "セックス", "sex", "まんこ", "ちんこ"]
+  // 名前が不適切な場合にfalseを返す
+  if (invalidChars.test(name) || name.length > 15 || banword.some(word => name.includes(word))) {
+    return "名無しさん";  // 不適切な名前
+  }
+  if (name == "") return "名無しさん";
+  return name;
+}
+function SendData() {
+  const textbox1 = document.getElementById("name");
+  // ハンドルネームの欄になにも入力されていなければ「名無しさん」とする
+  let name = textbox1.value;
+  name = isValidName(name);
+  var date = getdate()
+  var sendtxt = xorEncrypt(`${name},${score},${date}`, test);
+  console.log(sendtxt);
+  const data = {
+    'data': sendtxt
+  };
+  //gasにアクセス開始
+  const endPoint = "https://script.google.com/macros/s/AKfycbzELM6eBPDZ3AktNQVUCEKtuGYDXfJxreMHM1qSVB9fGvCOKoe5PDMm9-2ziLHN_dyF/exec";
+  fetch(endPoint, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => console.log("成功"))
+    .catch(error => console.error("エラー:", error));
 
-    // GASに送信するデータ
-    const dataToSend = {
-      encryptedData: encryptedBase64,
-      iv: ivBase64
-    };
+}
+function getdate() {
+  const date = new Date();
+  const year = date.getFullYear().toString().slice(); // 年の最後の2桁
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため+1し、2桁に
+  const day = String(date.getDate()).padStart(2, '0'); // 日
+  const hours = String(date.getHours()).padStart(2, '0'); // 時
+  const minutes = String(date.getMinutes()).padStart(2, '0'); // 分
 
-    // GASに送信（fetchなどを使う）
-    fetch('https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dataToSend)
-    });
-  });
+  // フォーマットを組み立て
+  const formattedDate = `'${year}-${month}-${day} ${hours}:${minutes}`;
+  return formattedDate;
+}
