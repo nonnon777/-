@@ -42,8 +42,13 @@ const handler = async (req) => {
         return new Response("Token file not found", { status: 404 });
       }
     } else {
-      // Refererが一致しない場合は403 Forbiddenを返す
-      return new Response("Forbidden", { status: 403 });
+      
+      return new Response(req, {
+        status: 200,
+        headers: new Headers({
+          "content-type": "text/plain",
+        }),
+      });
     }
   }
 
