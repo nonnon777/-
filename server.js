@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 const allowedOrigin = "https://nonnon777-original-we-41.deno.dev";  // 許可するオリジン
 const allowedReferer = "https://nonnon777-original-we-41.deno.dev/game/game.html";  // 許可するリファラー
 // Google Apps Script WebアプリのURL（GASエンドポイント）
-const gasEndpoint = "https://script.google.com/macros/s/AKfycbyBmeJScAdOMOa9m-sbd0NwKyraQAlNo57p1b-14p4jU3XY2ru9MTetQCjKglPK7cSY/exec"; 
+const gasEndpoint = "https://script.google.com/macros/s/AKfycbzxxP03Oethmr0pzt_zat1uxaggv0PCdBusnq02ZAIdMHwnE9OMtA0BRA2dyTG02RdK/exec"; 
 
 // 静的ファイルの拡張子に対するMIMEタイプを設定
 const getContentType = (filePath) => {
@@ -98,12 +98,6 @@ const handler = async (req) => {
   } else {
     filePath = `./public${url.pathname}`;  // その他のパス
   }
-
-  if (filePath.endsWith("/token.txt")) {
-    // token.txtには直接アクセスできないようにする（403 Forbidden）
-    return new Response("Forbidden", { status: 403 });
-  }
-
   try {
     const contentType = getContentType(filePath);
     const file = await Deno.readFile(filePath);
