@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 const allowedOrigin = "https://nonnon777-original-we-41.deno.dev";  // 許可するオリジン
 const allowedReferer = "https://nonnon777-original-we-41.deno.dev/game/game.html";  // 許可するリファラー
 // Google Apps Script WebアプリのURL（GASエンドポイント）
-const gasEndpoint = "https://script.google.com/macros/s/AKfycbwFfwuWkPdhlcQxBqFYloUgxyp-qwaVu4yvW26xnNxNkH4BT0RhPYcbjWc2EHjSW05W/exec"; 
+const gasEndpoint = "https://script.google.com/macros/s/AKfycbyBmeJScAdOMOa9m-sbd0NwKyraQAlNo57p1b-14p4jU3XY2ru9MTetQCjKglPK7cSY/exec"; 
 
 // 静的ファイルの拡張子に対するMIMEタイプを設定
 const getContentType = (filePath) => {
@@ -67,7 +67,7 @@ const handler = async (req) => {
           
           "Content-Type": "application/json",
         },
-        body: {"data":"data"},  // ボディにPOSTされたデータを送信
+        body: JSON.stringify({"data":"data"}),  // ボディにPOSTされたデータを送信
       });
 
       // GASからのレスポンスを返す
