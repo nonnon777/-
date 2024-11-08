@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
-const allowedReferer = "https://nonnon777-original-we-41.deno.dev";  // 許可するリファラーURL
+const allowedReferer = "https://your-allowed-url.com";  // 許可するリファラーURL
 
 // 静的ファイルの拡張子に対するMIMEタイプを設定
 const getContentType = (filePath) => {
@@ -42,12 +42,9 @@ const handler = async (req) => {
         return new Response("Token file not found", { status: 404 });
       }
     } else {
-      
-      return new Response(req, {
-        status: 200,
-        headers: new Headers({
-          "content-type": "text/plain",
-        }),
+      // Refererが一致しない場合、Refererの内容を返す
+      return new Response(`Forbidden: Invalid Referer - ${referer || "No Referer"}`, {
+        status: 403,
       });
     }
   }
