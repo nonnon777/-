@@ -1,6 +1,9 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
-const allowedReferer = "https://your-allowed-url.com";  // 許可するリファラーURL
+const allowedOrigin = "https://nonnon777-original-we-41.deno.dev";  // 許可するオリジン
+const allowedReferer = "https://nonnon777-original-we-41.deno.dev/game/game.html";  // 許可するリファラー
+// Google Apps Script WebアプリのURL（GASエンドポイント）
+const gasEndpoint = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; 
 
 // 静的ファイルの拡張子に対するMIMEタイプを設定
 const getContentType = (filePath) => {
@@ -21,40 +24,73 @@ const getContentType = (filePath) => {
   }
 };
 
+
 const handler = async (req) => {
   const url = new URL(req.url);
 
-  // AJAXによるトークンリクエスト処理
-  if (url.pathname === "/get-token") {
+  // `/send-data` パスに対する処理
+  if (url.pathname === "/send-data" && req.method === "POST") {
     const referer = req.headers.get("referer");
+    const origin = req.headers.get("origin");
 
-    if (referer === allowedReferer) {
-      try {
-        // Refererが許可されたURLと一致する場合、token.txtの内容を返す
-        const token = await Deno.readTextFile("./public/token.txt");
-        return new Response(token, {
-          status: 200,
-          headers: new Headers({
-            "content-type": "text/plain",
-          }),
-        });
-      } catch (error) {
-        return new Response("Token file not found", { status: 404 });
-      }
+    // CORS設定とReferer確認
+    const headers = new Headers();
+    if (origin === allowedOrigin && referer === allowedReferer) {
+      headers.set("Access-Control-Allow-Origin", allowedOrigin);
+      headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+      headers.set("Access-Control-Allow-Headers", "Content-Type");
     } else {
-      // Refererが一致しない場合、Refererの内容を返す
-      return new Response(`Forbidden: Invalid Referer - ${referer || "No Referer"}`, {
+      // 許可されていないオリジンやリファラーの場合
+      return new Response("Forbidden: Invalid Origin or Referer", {
+        status: 403,
+        headers: {
+          "content-type": "text/plain",
+        },
+      });
+    }
+    // OPTIONSメソッドへの対応（CORSプリフライトリクエスト）
+    if (req.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204, // No content
+        headers: headers,
+      });
+    }
+
+    try {
+      const body = await req.json();  // リクエストボディのデータをJSONとして取得
+
+      // Google Apps Scriptへデータを送信
+      const response = await fetch(gasEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),  // ボディにPOSTされたデータを送信
+      });
+
+      // GASからのレスポンスを返す
+      const responseData = await response.json();
+      return new Response(JSON.stringify(responseData), {
         status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          ...headers,  // CORSヘッダーを追加
+        },
+      });
+    } catch (error) {
+      return new Response("Failed to send data to GAS", {
+        status: 500,
+        headers: {
+          "Content-Type": "text/plain",
+        },
       });
     }
   }
 
-  // 他のリクエスト処理
+  // 他のパス（HTMLファイルを返す）
   let filePath;
   if (url.pathname === "/") {
     filePath = "./public/index.html";  // / -> index.html
-  } else if (url.pathname === "/test") {
-    filePath = "./public/test.html";  // /test -> test.html
   } else if (url.pathname === "/game") {
     filePath = "./public/game/game.html";  // /game -> game.html
   } else {
