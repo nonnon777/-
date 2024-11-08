@@ -28,8 +28,6 @@ const handler = async (req) => {
     filePath = "./public/index.html";  // / -> index.html
   } else if (url.pathname === "/game") {
     filePath = "./public/game/game.html";  // /game -> game.html
-  } else if (url.pathname === "/test") {
-    filePath = "./public/test.html";  // /test -> test.html
   } else {
     filePath = `./public${url.pathname}`;  // その他のパス
   }
@@ -40,32 +38,10 @@ const handler = async (req) => {
   }
 
   try {
-    const contentType = getContentType(filePath);
+    const contentType = getContentType(filePath); // ファイルに対応するMIMEタイプを取得
 
-    if (filePath.endsWith("test.html")) {
-      // User-Agent と Referer を取得
-      const userAgent = req.headers.get("user-agent") || "N/A";
-      const referer = req.headers.get("referer") || "N/A";
-
-      // HTMLを読み込む
-      let htmlContent = await Deno.readTextFile(filePath);
-
-      // HTMLの中にUser-AgentとRefererを埋め込む
-      htmlContent = htmlContent.replace(
-        '<div class="info">',
-        `<div class="info">
-          <p>User-Agent: ${userAgent}</p>
-          <p>Referer: ${referer}</p>`
-      );
-
-      return new Response(htmlContent, {
-        status: 200,
-        headers: new Headers({
-          "content-type": contentType,
-        }),
-      });
-    } else if (filePath.endsWith("game.html")) {
-      // game.htmlの場合、token.txtの内容を埋め込む
+    if (filePath.endsWith("game.html")) {
+      // HTMLの場合はtoken.txtを埋め込む
       const token = await Deno.readTextFile("./public/token.txt");
 
       // HTMLを読み込む
@@ -85,7 +61,7 @@ const handler = async (req) => {
         }),
       });
     } else {
-      // その他のファイルをそのまま返す
+      // 画像やCSS/JSファイルをそのまま返す
       const file = await Deno.readFile(filePath);
       return new Response(file, {
         status: 200,
