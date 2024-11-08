@@ -462,7 +462,7 @@ function line() {
       if(interval >= 100){
         interval -= 5;
       }
-      
+      console.log("インターバル：",interval);
 
       clearInterval(loop);
       loop = setInterval(main, interval);
