@@ -137,7 +137,7 @@ function langJP(weathername) {
 
 //現在の天気を表示
 function displayWeather_now(data, location) {
-  const date = new Date(data.dt * 1000);
+  let date = new Date(data.dt * 1000);
   document.getElementById(
     "time"
   ).textContent = `現在の天気（${date.getHours()}時${date.getMinutes()}分時点）`;
@@ -157,14 +157,14 @@ function displayWeather_now(data, location) {
 //3時間ごとの天気データを表示。どこまで表示させるかは datalen（個数） で設定する
 function displayWeather_table(list) {
   const forecastData = document.getElementById("forecast-data");
-  for (let i = 2; i < datalen; i++) {
+  for (let i = 0; i < datalen; i++) {
     const row = document.createElement("tr");
     const timeCell = document.createElement("td");
     const tempCell = document.createElement("td");
     const rainCell = document.createElement("td");
     const descCell = document.createElement("td");
 
-    var date = new Date(list[i].dt_txt);
+    var date = new Date(list[i].dt_txt + ' UTC');
     timeCell.textContent = `${
       date.getMonth() + 1
     }月${date.getDate()}日${date.getHours()}時`;
