@@ -61,9 +61,9 @@ function SendData() {
     method: "POST",
     mode: "no-cors",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": 'application/x-www-form-urlencoded'
     },
-    body: JSON.stringify(data)
+    body: `encryptedData=${encodeURIComponent(encryptedData)}`
   })
     .then(response => console.log("成功"))
     .catch(error => console.error("エラー:", error));
@@ -527,3 +527,42 @@ function gamereset() {
   setcolor();
   loop = setInterval(main, interval);
 }
+const encryptionKey = test;  
+const iv = window.crypto.getRandomValues(new Uint8Array(12));  // 12バイトのランダムなIVを生成
+
+// 暗号化関数
+function encryptData(data, key, iv) {
+  const encoder = new TextEncoder();
+  const encodedData = encoder.encode(data);
+  const keyBuffer = encoder.encode(key);
+
+  // Web Crypto APIを使用して暗号化
+  return window.crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt'])
+    .then(cryptoKey => {
+      return window.crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv: iv },
+        cryptoKey,
+        encodedData
+      );
+    });
+}
+const dataToEncrypt = { name: 'John Doe', score: 100, date: '2024-11-08' };
+encryptData(JSON.stringify(dataToEncrypt), encryptionKey, iv)
+  .then(encryptedData => {
+    // 暗号化されたデータをBase64エンコードしてGASに送信
+    const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedData)));
+    const ivBase64 = btoa(String.fromCharCode(...iv));  // IVもBase64エンコード
+
+    // GASに送信するデータ
+    const dataToSend = {
+      encryptedData: encryptedBase64,
+      iv: ivBase64
+    };
+
+    // GASに送信（fetchなどを使う）
+    fetch('https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataToSend)
+    });
+  });
